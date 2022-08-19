@@ -203,7 +203,36 @@
      * @param {any} newVal Data for the new node.
      * @returns {boolean} Indicates if the new node was added.
      */
-    insertBefore(targetVal, newVal) {}
+     insertBefore(targetVal, newVal) {
+      if (this.isEmpty()) {
+        return false;
+      }
+  
+      let runner = this.head;
+  
+      // This was written with a different structure than insertAfter to
+      // for comparison purposes but the logic is almost the same.
+      while (runner) {
+        if (runner.data === targetVal) {
+          const newNode = new DLLNode(newVal);
+          newNode.next = runner;
+          newNode.prev = runner.prev;
+  
+          if (runner === this.head) {
+            this.head = newNode;
+          } else {
+            // if runner was head then prev would be null.
+            runner.prev.next = newNode;
+          }
+  
+          runner.prev = newNode;
+          return true;
+        }
+  
+        runner = runner.next;
+      }
+      return false;
+    }
   }
   
   const emptyList = new DoublyLinkedList();
